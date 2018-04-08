@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN" monitorInterval="60">
+	<Properties>
+		<!-- 配置日志文件输出目录 -->
+		<property name="LOG_HOME">../logs/xuecheng/aimactiviti/</property>
+		<Property name="DEBUG_FILE_NAME">debug</Property>
+		<Property name="INFO_FILE_NAME">info</Property>
+		<Property name="ERROR_FILE_NAME">error</Property>
+	</Properties>
+	<Appenders>
+		<!--这个输出控制台的配置-->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+			<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+		</Console>
+
+		<!-- DEBUG日志格式 -->
+		<RollingRandomAccessFile name="ROLLING_DEBUG"
+								 fileName="${LOG_HOME}/${DEBUG_FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${DEBUG_FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+					pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1000" />
+			<ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="ROLLING_INFO"
+								 fileName="${LOG_HOME}/${INFO_FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${INFO_FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+					pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1000" />
+			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="ROLLING_ERROR"
+								 fileName="${LOG_HOME}/${ERROR_FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${ERROR_FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+					pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="1000" />
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.springframework" level="ERROR"/>
+
+		<Root level="DEBUG">
+			<AppenderRef ref="ROLLING_DEBUG" />
+			<AppenderRef ref="ROLLING_INFO" />
+			<AppenderRef ref="ROLLING_ERROR" />
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</configuration>
